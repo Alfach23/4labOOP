@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<CCanvas xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Picture>1000</Picture>
+  <FigureList>
+    <CFigure xsi:type="СTriangle">
+      <X0>150</X0>
+      <Y0>150</Y0>
+      <Color>Black</Color>
+      <Tradius>30</Tradius>
+      <Xt1>90</Xt1>
+      <Yt1>90</Yt1>
+      <Xt2>210</Xt2>
+      <Yt2>90</Yt2>
+      <Xt3>150</Xt3>
+      <Yt3>210</Yt3>
+    </CFigure>
+    <CFigure xsi:type="CLine">
+      <X0>100</X0>
+      <Y0>200</Y0>
+      <Color>Black</Color>
+      <X1>300</X1>
+      <Y1>30</Y1>
+    </CFigure>
+    <CFigure xsi:type="CRectangle">
+      <X0>123</X0>
+      <Y0>32</Y0>
+      <Color>Black</Color>
+      <SHeight>0</SHeight>
+      <RWidth>200</RWidth>
+      <RHeight>300</RHeight>
+    </CFigure>
+    <CFigure xsi:type="CRectangle">
+      <X0>123</X0>
+      <Y0>32</Y0>
+      <Color>Brown</Color>
+      <SHeight>0</SHeight>
+      <RWidth>200</RWidth>
+      <RHeight>250</RHeight>
+    </CFigure>
+    <CFigure xsi:type="CRectangle">
+      <X0>123</X0>
+      <Y0>32</Y0>
+      <Color>Green</Color>
+      <SHeight>0</SHeight>
+      <RWidth>400</RWidth>
+      <RHeight>150</RHeight>
+    </CFigure>
+  </FigureList>
+</CCanvas>
