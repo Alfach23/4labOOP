@@ -21,6 +21,12 @@ namespace _4labOOP
         bool isPaint = true;
         public Point PositionStart = new Point(0,0);
         public Point PositionEnd = new Point(0, 0);
+
+        public int Xl1;
+        public int Yl1;
+        public int Xl2;
+        public int Yl2;
+
         public Form1()
         {
             InitializeComponent();
@@ -69,7 +75,7 @@ namespace _4labOOP
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             PositionStart = new Point(e.X, e.Y);
-            Trace.WriteLine(String.Format("Начало {0}", PositionStart.ToString()));
+            Trace.WriteLine(String.Format("Начало {0}", PositionStart));
             //движение
             if (comboBox3.SelectedIndex==0)
             foreach (CFigure FigureList in m_pCanvas.FigureList)
@@ -81,16 +87,38 @@ namespace _4labOOP
                     {
                         isMoves = true;
                         FigureList.isMove = true;
-                        isPaint = false;
+                        //isPaint = false;
                     }
                     else
                     {
                         isMoves = false;
                         FigureList.isMove = false;
-                        isPaint = true;
+                        //isPaint = true;
                     }
                 }
                 Redraw();
+            }
+
+            if (comboBox3.SelectedIndex == 3)
+            {
+                if (m_pCanvas.FigureList != null)
+                {
+                    foreach (CFigure FigureList in m_pCanvas.FigureList)
+                    {
+                        if (PositionStart.X >= FigureList.X0 && PositionStart.X <= FigureList.X1 &&
+                            PositionStart.Y >= FigureList.Y0 && PositionStart.Y <= FigureList.Y1)
+                        {
+                            isPaint = true;
+                            Xl1 = (FigureList.X0 + FigureList.X1)/2;
+                            Yl1 = (FigureList.Y0 + FigureList.Y1) / 2;
+                        }
+                        else
+                        {
+                            //return;
+                            isPaint = false;
+                        }
+                    }
+                }
             }
         }
 
@@ -110,7 +138,7 @@ namespace _4labOOP
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             PositionEnd = new Point(e.X, e.Y);
-            Trace.WriteLine(String.Format("Конец {0}", PositionStart.ToString()));
+            Trace.WriteLine(String.Format("Конец {0}", PositionStart));
             //if(isMoves)
                 foreach (CFigure FigureList in m_pCanvas.FigureList.Where(n => n.isMove))
                 {
@@ -186,25 +214,53 @@ namespace _4labOOP
 
                     if (comboBox3.SelectedIndex == 3)
                     {
-                        int xl1 = PositionStart.X;
-                        int yl1 = PositionStart.Y;
-                        int xl2 = PositionEnd.X;
-                        int yl2 = PositionEnd.Y;
-                        CLine fLine = new CLine()
+                        //xl1 = PositionStart.X;
+                        //yl1 = PositionStart.Y;
+
+                        foreach (CFigure FigureList in m_pCanvas.FigureList)
                         {
-                            Color = EColor.Green,
-                            X0 = xl1,
-                            Y0 = yl1,
-                            X1 = xl2,
-                            Y1 = yl2,
-                            isMove = false
-                        };
-                        m_pCanvas.Add(fLine);
-                        Redraw();
+                            if (FigureList!=null)
+                                if (e.X >= FigureList.X0 && e.X <= FigureList.X1 &&
+                                    e.Y >= FigureList.Y0 && e.Y <= FigureList.Y1)
+                                {
+                                    isPaint = true;
+                                    Xl2 = (FigureList.X0 + FigureList.X1)/2;
+                                    Yl2 = (FigureList.Y0 + FigureList.Y1)/2;
+                                }
+                                else
+                                {
+                                    isPaint = false;
+                                    //return;
+                                }
+                        }
+                        if (isPaint)
+                        {
+                            //xl2 = PositionEnd.X;
+                            //yl2 = PositionEnd.Y;
+                            CLine fLine = new CLine()
+                            {
+                                Color = EColor.Green,
+                                X0 = Xl1,
+                                Y0 = Yl1,
+                                X1 = Xl2,
+                                Y1 = Yl2,
+                                isMove = false
+                            };
+                            m_pCanvas.Add(fLine);
+                            Redraw();
+                        }
                     }
                 //}
                 //isPaint = false;
                 Redraw();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            m_pCanvas.FigureList.Clear();
+            bmp = new Bitmap(pictureBox1.ClientSize.Width, pictureBox1.ClientSize.Height);
+            pictureBox1.Image = bmp;
+            comboBox2.Items.Clear();
         }
     }
 }
