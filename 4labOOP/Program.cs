@@ -29,12 +29,14 @@ namespace _4labOOP
         public int X0;
         public int Y0;
         public EColor Color;
+        public int X1;
+        public int Y1;
+        public bool isMove=false;
         
         /// <summary>
         /// Содержимое холста
         /// </summary>
         /// <returns></returns>
-    //    public abstract void DrawGraphics(Graphics pG);
         public abstract string DrawText();
     }
 
@@ -43,8 +45,8 @@ namespace _4labOOP
     /// </summary>
     public class CLine : CFigure
     {
-        public int X1;
-        public int Y1;
+        //public int X1;
+        //public int Y1;
 
         public override string DrawText()
         {
@@ -65,6 +67,10 @@ namespace _4labOOP
             return String.Format("Прямоугольник ({0}), X:{1}, Y:{2}, Высота:{3}, Ширина:{4}", Color, X0, Y0, RHeight, RWidth);
         }
     }
+
+    /// <summary>
+    /// Прямоугольник2 - почти пунктир
+    /// </summary>
     public class CRectangle2 : CFigure
     {
         public int R2Width;
@@ -78,36 +84,16 @@ namespace _4labOOP
     
     public class CCanvas
     {
-        /*/// <summary>
-        /// Место рисования
-        /// </summary>*/
-
         public int Picture;
         public  List<CFigure> FigureList =new List<CFigure>();
-
-        /// <summary>
-        /// Конструктор
-        /// </summary>
-        /// <param name="pAddition"></param>
-        public CCanvas(int iPicture)
-        {
-            Picture = iPicture;
-        }
-        /// <summary>
-        /// Конструктор
-        /// </summary>
         public CCanvas()
         {
         }
         public void Add(CFigure pAddition)
         {
-            if(FigureList.Count!=3)
+            //if(FigureList.Count!=3)
             FigureList.Add(pAddition);
         }
-        //public string GetCanvas()
-        //{
-        //    return String.Join(", ", FigureList.Select(p => p.DrawText()));
-        //}
     }
 
     static class Program
