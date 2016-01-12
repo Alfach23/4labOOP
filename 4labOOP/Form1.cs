@@ -127,10 +127,10 @@ namespace _4labOOP
             foreach (CFigure FigureList in m_pCanvas.FigureList.Where(n => n.isMove))
             {
                 Point newPosition = new Point(e.X, e.Y);
-                FigureList.X0 = newPosition.X;
-                FigureList.Y0 = newPosition.Y;
-                FigureList.X1 = PositionEnd.X;
-                FigureList.Y1 = PositionEnd.Y;
+                FigureList.X0 = e.X;
+                FigureList.Y0 = e.Y;
+                FigureList.X1 = FigureList.X1 + e.X;
+                FigureList.Y1 = FigureList.Y1 + e.Y;
                 Redraw();
             }
         }
@@ -142,6 +142,7 @@ namespace _4labOOP
             //if(isMoves)
                 foreach (CFigure FigureList in m_pCanvas.FigureList.Where(n => n.isMove))
                 {
+                    isMoves = false;
                     FigureList.isMove = false;
                 }
             //if (isPaint)
