@@ -47,6 +47,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\CCanvas.cs" />
+    <Compile Include="Classes\CFigure.cs" />
+    <Compile Include="Classes\CLine.cs" />
+    <Compile Include="Classes\CRectangleIsBlack.cs" />
+    <Compile Include="Classes\CRectangleIsOrange.cs" />
+    <Compile Include="Classes\EColor.cs" />
+    <Compile Include="Classes\EFigures.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +87,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
