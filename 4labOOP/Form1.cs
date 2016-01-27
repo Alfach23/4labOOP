@@ -97,13 +97,11 @@ namespace _4labOOP
                     {
                         isMoves = true;
                         FigureList.isMove = true;
-                        //isPaint = false;
                     }
                     else
                     {
                         isMoves = false;
                         FigureList.isMove = false;
-                        //isPaint = true;
                     }
                 }
                 Redraw();
@@ -125,7 +123,6 @@ namespace _4labOOP
                     }
                     else
                     {
-                        //return;
                         isPaint = false;
                     }
                 }
@@ -136,7 +133,6 @@ namespace _4labOOP
         {
             foreach (CFigure FigureList in m_pCanvas.FigureList.Where(n => n.isMove))
             {
-                //Point newPosition = new Point(e.X, e.Y);
                 FigureList.X0 = e.X;
                 FigureList.Y0 = e.Y;
                 FigureList.X1 = FigureList.X1 + e.X;
@@ -149,126 +145,139 @@ namespace _4labOOP
         {
             PositionEnd = new Point(e.X, e.Y);
             Trace.WriteLine(String.Format("Конец {0}", PositionStart));
-            //if(isMoves)
-                foreach (CFigure FigureList in m_pCanvas.FigureList.Where(n => n.isMove))
-                {
+            
+            foreach (CFigure FigureList in m_pCanvas.FigureList.Where(n => n.isMove))
+            {
                     
-                    isMoves = false;
-                    FigureList.isMove = false;
+                isMoves = false;
+                FigureList.isMove = false;
+            }
+
+            if (comboBox3.SelectedIndex == 1)
+            {
+                Draw_And_AddRectangleIsBlack();
+            }
+
+            if (comboBox3.SelectedIndex == 2)
+            {
+                Draw_And_AddRectangleIsOrange();
+            }
+
+            if (comboBox3.SelectedIndex == 3)
+            {
+                Draw_And_AddLine(e);
+            }
+        Redraw();
+        }
+
+        private void Draw_And_AddLine(MouseEventArgs e)
+        {
+            //xl1 = PositionStart.X;
+            //yl1 = PositionStart.Y;
+
+            foreach (CFigure FigureList in m_pCanvas.FigureList)
+            {
+                if (FigureList != null)
+                {
+                    if (e.X >= FigureList.X0 && e.X <= FigureList.X1 &&
+                        e.Y >= FigureList.Y0 && e.Y <= FigureList.Y1)
+                    {
+                        isPaint = true;
+                        Xl2 = (FigureList.X0 + FigureList.X1)/2;
+                        Yl2 = (FigureList.Y0 + FigureList.Y1)/2;
+                    }
+                    else
+                    {
+                        isPaint = false;
+                    }
                 }
-            //if (isPaint)
-                //{
-                  if (comboBox3.SelectedIndex == 1)
-                    {
-                        int Xr = PositionStart.X;
-                        int Yr = PositionStart.Y;
-                        int Wr = PositionEnd.X - Xr;
-                        int Hr = PositionEnd.Y - Yr;
-
-                        if (PositionEnd.X < PositionStart.X)
-                        {
-                            Xr = PositionEnd.X;
-                            Wr = Wr * (-1);
-                        }
-                        if (PositionEnd.Y < PositionStart.Y)
-                        {
-                            Yr = PositionEnd.Y;
-                            Hr = Hr * (-1);
-                        }
-                        
-                        
-                        ZIndextoForm++;
-                        CRectangleIsBlack fRectangle = new CRectangleIsBlack()
-                        {
-                            Color = EColor.Black,
-                            RHeight = Hr,
-                            RWidth = Wr,
-                            X0 = Xr,
-                            Y0 = Yr,
-                            X1 = PositionEnd.X,
-                            Y1 = PositionEnd.Y,
-                            isMove = false,
-                            ZIndex=ZIndextoForm
-                        };
-                        m_pCanvas.Add(fRectangle);
-                        Redraw();
-                    }
-
-                    if (comboBox3.SelectedIndex == 2)
-                    {
-                        int Xr2 = PositionStart.X;
-                        int Yr2 = PositionStart.Y;
-                        int Wr2 = PositionEnd.X - Xr2;
-                        int Hr2 = PositionEnd.Y - Yr2;
-
-                        if (PositionEnd.X < PositionStart.X)
-                        {
-                            Xr2 = PositionEnd.X;
-                            Wr2 = Wr2 * (-1);
-                        }
-                        if (PositionEnd.Y < PositionStart.Y)
-                        {
-                            Yr2 = PositionEnd.Y;
-                            Hr2 = Hr2 * (-1);
-                        }
-
-                        ZIndextoForm++;
-                        CRectangleIsOrange f2Rectangle = new CRectangleIsOrange()
-                        {
-                            Color = EColor.Orange,
-                            R2Height = Hr2,
-                            R2Width = Wr2,
-                            X0 = Xr2,
-                            Y0 = Yr2,
-                            X1 = PositionEnd.X,
-                            Y1 = PositionEnd.Y,
-                            isMove = false
-                        };
-                        m_pCanvas.Add(f2Rectangle);
-                        Redraw();
-                    }
-
-                    if (comboBox3.SelectedIndex == 3)
-                    {
-                        //xl1 = PositionStart.X;
-                        //yl1 = PositionStart.Y;
-
-                        foreach (CFigure FigureList in m_pCanvas.FigureList)
-                        {
-                            if (FigureList!=null)
-                                if (e.X >= FigureList.X0 && e.X <= FigureList.X1 &&
-                                    e.Y >= FigureList.Y0 && e.Y <= FigureList.Y1)
-                                {
-                                    isPaint = true;
-                                    Xl2 = (FigureList.X0 + FigureList.X1)/2;
-                                    Yl2 = (FigureList.Y0 + FigureList.Y1)/2;
-                                }
-                                else
-                                {
-                                    isPaint = false;
-                                    //return;
-                                }
-                        }
-                        if (isPaint)
-                        {
-                            //xl2 = PositionEnd.X;
-                            //yl2 = PositionEnd.Y;
-                            CLine fLine = new CLine()
-                            {
-                                Color = EColor.Green,
-                                X0 = Xl1,
-                                Y0 = Yl1,
-                                X1 = Xl2,
-                                Y1 = Yl2,
-                                isMove = false
-                            };
-                            m_pCanvas.Add(fLine);
-                            Redraw();
-                        }
-                    }
-                //}
-                //isPaint = false;
+            }
+            if (isPaint)
+            {
+                //xl2 = PositionEnd.X;
+                //yl2 = PositionEnd.Y;
+                CLine fLine = new CLine()
+                {
+                    Color = EColor.Green,
+                    X0 = Xl1,
+                    Y0 = Yl1,
+                    X1 = Xl2,
+                    Y1 = Yl2,
+                    isMove = false
+                };
+                m_pCanvas.Add(fLine);
                 Redraw();
+            }
+        }
+
+        private void Draw_And_AddRectangleIsOrange()
+        {
+            int Xr2 = PositionStart.X;
+            int Yr2 = PositionStart.Y;
+            int Wr2 = PositionEnd.X - Xr2;
+            int Hr2 = PositionEnd.Y - Yr2;
+
+            if (PositionEnd.X < PositionStart.X)
+            {
+                Xr2 = PositionEnd.X;
+                Wr2 = Wr2*(-1);
+            }
+            if (PositionEnd.Y < PositionStart.Y)
+            {
+                Yr2 = PositionEnd.Y;
+                Hr2 = Hr2*(-1);
+            }
+
+            ZIndextoForm++;
+            CRectangleIsOrange f2Rectangle = new CRectangleIsOrange()
+            {
+                Color = EColor.Orange,
+                R2Height = Hr2,
+                R2Width = Wr2,
+                X0 = Xr2,
+                Y0 = Yr2,
+                X1 = PositionEnd.X,
+                Y1 = PositionEnd.Y,
+                isMove = false
+            };
+            m_pCanvas.Add(f2Rectangle);
+            Redraw();
+        }
+
+        private void Draw_And_AddRectangleIsBlack()
+        {
+            int Xr = PositionStart.X;
+            int Yr = PositionStart.Y;
+            int Wr = PositionEnd.X - Xr;
+            int Hr = PositionEnd.Y - Yr;
+
+            if (PositionEnd.X < PositionStart.X)
+            {
+                Xr = PositionEnd.X;
+                Wr = Wr*(-1);
+            }
+            if (PositionEnd.Y < PositionStart.Y)
+            {
+                Yr = PositionEnd.Y;
+                Hr = Hr*(-1);
+            }
+
+
+            ZIndextoForm++;
+            CRectangleIsBlack fRectangle = new CRectangleIsBlack()
+            {
+                Color = EColor.Black,
+                RHeight = Hr,
+                RWidth = Wr,
+                X0 = Xr,
+                Y0 = Yr,
+                X1 = PositionEnd.X,
+                Y1 = PositionEnd.Y,
+                isMove = false,
+                ZIndex = ZIndextoForm
+            };
+            m_pCanvas.Add(fRectangle);
+            Redraw();
         }
 
         private void button1_Click(object sender, EventArgs e)
