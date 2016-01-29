@@ -22,7 +22,7 @@ namespace _4labOOP
 
         public int ZIndextoForm = 0;
         public Point PositionStart = new Point(0, 0);
-        
+
         public int Xline1;
         public int Yline1;
         public int Xline2;
@@ -38,6 +38,58 @@ namespace _4labOOP
             comboBox3.Items.Add(EFigures.Line);
 
             bmp = new Bitmap(pictureBox1.ClientSize.Width, pictureBox1.ClientSize.Height);
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            PositionStart = new Point(e.X, e.Y);
+            Trace.WriteLine(String.Format("Начало {0}", PositionStart));
+            //движение
+            if (comboBox3.SelectedIndex == 0)
+                GetPositionPointer(ref PositionStart);
+
+            if (comboBox3.SelectedIndex == 3)
+                GetDrawLine(ref PositionStart);
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            foreach (CFigure FigureList in m_pCanvas.FigureList.Where(n => n.isMove))
+            {
+                FigureList.X0 = e.X;
+                FigureList.Y0 = e.Y;
+                FigureList.X1 = FigureList.X1 + e.X;
+                FigureList.Y1 = FigureList.Y1 + e.Y;
+                Redraw();
+            }
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            isMoves = false;
+            Trace.WriteLine(String.Format("Конец {0}", PositionStart));
+
+            foreach (CFigure FigureList in m_pCanvas.FigureList.Where(n => n.isMove))
+            {
+                isMoves = false;
+                FigureList.isMove = false;
+            }
+
+            if (comboBox3.SelectedIndex == 1)
+            {
+                Draw_And_AddRectangleIsBlack(ref e);
+            }
+
+            if (comboBox3.SelectedIndex == 2)
+            {
+                Draw_And_AddRectangleIsOrange(ref e);
+            }
+
+            if (comboBox3.SelectedIndex == 3)
+            {
+                Draw_And_AddLine(ref e);
+            }
+            Redraw();
         }
 
         private void Redraw()
@@ -75,18 +127,6 @@ namespace _4labOOP
         private static void h_DrawFigure(Graphics lines, CLine flines)
         {
             lines.DrawLine(Pens.Green, flines.X0, flines.Y0, flines.X1, flines.Y1);
-        }
-
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
-        {
-            PositionStart = new Point(e.X, e.Y);
-            Trace.WriteLine(String.Format("Начало {0}", PositionStart));
-            //движение
-            if (comboBox3.SelectedIndex == 0)
-                GetPositionPointer(ref PositionStart);
-
-            if (comboBox3.SelectedIndex == 3)
-                GetDrawLine(ref PositionStart);
         }
 
         private void GetPositionPointer(ref Point pS)
@@ -130,46 +170,6 @@ namespace _4labOOP
                     }
                 }
             }
-        }
-
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
-        {
-            foreach (CFigure FigureList in m_pCanvas.FigureList.Where(n => n.isMove))
-            {
-                FigureList.X0 = e.X;
-                FigureList.Y0 = e.Y;
-                FigureList.X1 = FigureList.X1 + e.X;
-                FigureList.Y1 = FigureList.Y1 + e.Y;
-                Redraw();
-            }
-        }
-
-        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
-        {
-            isMoves = false;
-            Trace.WriteLine(String.Format("Конец {0}", PositionStart));
-
-            foreach (CFigure FigureList in m_pCanvas.FigureList.Where(n => n.isMove))
-            {
-                isMoves = false;
-                FigureList.isMove = false;
-            }
-
-            if (comboBox3.SelectedIndex == 1)
-            {
-                Draw_And_AddRectangleIsBlack(ref e);
-            }
-
-            if (comboBox3.SelectedIndex == 2)
-            {
-                Draw_And_AddRectangleIsOrange(ref e);
-            }
-
-            if (comboBox3.SelectedIndex == 3)
-            {
-                Draw_And_AddLine(ref e);
-            }
-            Redraw();
         }
 
         private void Draw_And_AddLine(ref MouseEventArgs e)
