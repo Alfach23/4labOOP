@@ -16,17 +16,17 @@ namespace _4labOOP
     public partial class Form1 : Form
     {
         private CCanvas m_pCanvas = new CCanvas();
-        Bitmap bmp;
-        bool isMoves = false;
-        bool isPaint = true;
+        private Bitmap bmp;
+        private bool isMoves = false;
+        private bool isPaint = true;
+
+        public int ZIndextoForm = 0;
         public Point PositionStart = new Point(0, 0);
         
         public int Xline1;
         public int Yline1;
         public int Xline2;
         public int Yline2;
-
-        public int ZIndextoForm = 0;
 
         public Form1()
         {
