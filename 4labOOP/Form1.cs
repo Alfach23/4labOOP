@@ -19,13 +19,12 @@ namespace _4labOOP
         Bitmap bmp;
         bool isMoves = false;
         bool isPaint = true;
-        public Point PositionStart = new Point(0,0);
-        public Point PositionEnd = new Point(0, 0);
-
-        public int Xl1;
-        public int Yl1;
-        public int Xl2;
-        public int Yl2;
+        public Point PositionStart = new Point(0, 0);
+        
+        public int Xline1;
+        public int Yline1;
+        public int Xline2;
+        public int Yline2;
 
         public int ZIndextoForm = 0;
 
@@ -40,6 +39,7 @@ namespace _4labOOP
 
             bmp = new Bitmap(pictureBox1.ClientSize.Width, pictureBox1.ClientSize.Height);
         }
+
         private void Redraw()
         {
             using (Graphics GFigures = Graphics.FromImage(bmp))
@@ -54,21 +54,24 @@ namespace _4labOOP
             }
             pictureBox1.Image = bmp;
         }
-        
+
         private static void h_DrawFigure(Graphics pG, CFigure fFigure)
         {
-            if (fFigure is CRectangleIsBlack) h_DrawFigure(pG, (CRectangleIsBlack)fFigure);
-            if (fFigure is CRectangleIsOrange) h_DrawFigure(pG, (CRectangleIsOrange)fFigure);
-            if (fFigure is CLine) h_DrawFigure(pG, (CLine)fFigure);
+            if (fFigure is CRectangleIsBlack) h_DrawFigure(pG, (CRectangleIsBlack) fFigure);
+            if (fFigure is CRectangleIsOrange) h_DrawFigure(pG, (CRectangleIsOrange) fFigure);
+            if (fFigure is CLine) h_DrawFigure(pG, (CLine) fFigure);
         }
+
         private static void h_DrawFigure(Graphics rect, CRectangleIsBlack fRect)
         {
             rect.DrawRectangle(Pens.Black, fRect.X0, fRect.Y0, fRect.RWidth, fRect.RHeight);
         }
+
         private static void h_DrawFigure(Graphics rect2, CRectangleIsOrange fRect2)
         {
             rect2.DrawRectangle(Pens.Orange, fRect2.X0, fRect2.Y0, fRect2.R2Width, fRect2.R2Height);
         }
+
         private static void h_DrawFigure(Graphics lines, CLine flines)
         {
             lines.DrawLine(Pens.Green, flines.X0, flines.Y0, flines.X1, flines.Y1);
@@ -79,7 +82,7 @@ namespace _4labOOP
             PositionStart = new Point(e.X, e.Y);
             Trace.WriteLine(String.Format("Начало {0}", PositionStart));
             //движение
-            if (comboBox3.SelectedIndex==0)
+            if (comboBox3.SelectedIndex == 0)
                 GetPositionPointer(ref PositionStart);
 
             if (comboBox3.SelectedIndex == 3)
@@ -92,8 +95,8 @@ namespace _4labOOP
             {
                 if (FigureList != null)
                 {
-                    if (PositionStart.X >= FigureList.X0 && PositionStart.X <= FigureList.X1 &&
-                        PositionStart.Y >= FigureList.Y0 && PositionStart.Y <= FigureList.Y1)
+                    if (pS.X >= FigureList.X0 && pS.X <= FigureList.X1 &&
+                        pS.Y >= FigureList.Y0 && pS.Y <= FigureList.Y1)
                     {
                         isMoves = true;
                         FigureList.isMove = true;
@@ -118,8 +121,8 @@ namespace _4labOOP
                         pS.Y >= FigureList.Y0 && pS.Y <= FigureList.Y1)
                     {
                         isPaint = true;
-                        Xl1 = (FigureList.X0 + FigureList.X1)/2;
-                        Yl1 = (FigureList.Y0 + FigureList.Y1)/2;
+                        Xline1 = (FigureList.X0 + FigureList.X1)/2;
+                        Yline1 = (FigureList.Y0 + FigureList.Y1)/2;
                     }
                     else
                     {
@@ -143,37 +146,36 @@ namespace _4labOOP
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
-            PositionEnd = new Point(e.X, e.Y);
+            isMoves = false;
             Trace.WriteLine(String.Format("Конец {0}", PositionStart));
-            
+
             foreach (CFigure FigureList in m_pCanvas.FigureList.Where(n => n.isMove))
             {
-                    
                 isMoves = false;
                 FigureList.isMove = false;
             }
 
             if (comboBox3.SelectedIndex == 1)
             {
-                Draw_And_AddRectangleIsBlack();
+                Draw_And_AddRectangleIsBlack(ref e);
             }
 
             if (comboBox3.SelectedIndex == 2)
             {
-                Draw_And_AddRectangleIsOrange();
+                Draw_And_AddRectangleIsOrange(ref e);
             }
 
             if (comboBox3.SelectedIndex == 3)
             {
-                Draw_And_AddLine(e);
+                Draw_And_AddLine(ref e);
             }
-        Redraw();
+            Redraw();
         }
 
-        private void Draw_And_AddLine(MouseEventArgs e)
+        private void Draw_And_AddLine(ref MouseEventArgs e)
         {
-            //xl1 = PositionStart.X;
-            //yl1 = PositionStart.Y;
+            //xline1 = PositionStart.X;
+            //yline1 = PositionStart.Y;
 
             foreach (CFigure FigureList in m_pCanvas.FigureList)
             {
@@ -183,8 +185,8 @@ namespace _4labOOP
                         e.Y >= FigureList.Y0 && e.Y <= FigureList.Y1)
                     {
                         isPaint = true;
-                        Xl2 = (FigureList.X0 + FigureList.X1)/2;
-                        Yl2 = (FigureList.Y0 + FigureList.Y1)/2;
+                        Xline2 = (FigureList.X0 + FigureList.X1)/2;
+                        Yline2 = (FigureList.Y0 + FigureList.Y1)/2;
                     }
                     else
                     {
@@ -194,15 +196,15 @@ namespace _4labOOP
             }
             if (isPaint)
             {
-                //xl2 = PositionEnd.X;
-                //yl2 = PositionEnd.Y;
+                //xline2 = PositionEnd.X;
+                //yline2 = PositionEnd.Y;
                 CLine fLine = new CLine()
                 {
                     Color = EColor.Green,
-                    X0 = Xl1,
-                    Y0 = Yl1,
-                    X1 = Xl2,
-                    Y1 = Yl2,
+                    X0 = Xline1,
+                    Y0 = Yline1,
+                    X1 = Xline2,
+                    Y1 = Yline2,
                     isMove = false
                 };
                 m_pCanvas.Add(fLine);
@@ -210,21 +212,21 @@ namespace _4labOOP
             }
         }
 
-        private void Draw_And_AddRectangleIsOrange()
+        private void Draw_And_AddRectangleIsOrange(ref MouseEventArgs e)
         {
             int Xr2 = PositionStart.X;
             int Yr2 = PositionStart.Y;
-            int Wr2 = PositionEnd.X - Xr2;
-            int Hr2 = PositionEnd.Y - Yr2;
+            int Wr2 = e.X - Xr2;
+            int Hr2 = e.Y - Yr2;
 
-            if (PositionEnd.X < PositionStart.X)
+            if (e.X < e.X)
             {
-                Xr2 = PositionEnd.X;
+                Xr2 = e.X;
                 Wr2 = Wr2*(-1);
             }
-            if (PositionEnd.Y < PositionStart.Y)
+            if (e.Y < e.Y)
             {
-                Yr2 = PositionEnd.Y;
+                Yr2 = e.Y;
                 Hr2 = Hr2*(-1);
             }
 
@@ -236,29 +238,29 @@ namespace _4labOOP
                 R2Width = Wr2,
                 X0 = Xr2,
                 Y0 = Yr2,
-                X1 = PositionEnd.X,
-                Y1 = PositionEnd.Y,
+                X1 = e.X,
+                Y1 = e.Y,
                 isMove = false
             };
             m_pCanvas.Add(f2Rectangle);
             Redraw();
         }
 
-        private void Draw_And_AddRectangleIsBlack()
+        private void Draw_And_AddRectangleIsBlack(ref MouseEventArgs e)
         {
             int Xr = PositionStart.X;
             int Yr = PositionStart.Y;
-            int Wr = PositionEnd.X - Xr;
-            int Hr = PositionEnd.Y - Yr;
+            int Wr = e.X - Xr;
+            int Hr = e.Y - Yr;
 
-            if (PositionEnd.X < PositionStart.X)
+            if (e.X < PositionStart.X)
             {
-                Xr = PositionEnd.X;
+                Xr = e.X;
                 Wr = Wr*(-1);
             }
-            if (PositionEnd.Y < PositionStart.Y)
+            if (e.Y < PositionStart.Y)
             {
-                Yr = PositionEnd.Y;
+                Yr = e.Y;
                 Hr = Hr*(-1);
             }
 
@@ -271,8 +273,8 @@ namespace _4labOOP
                 RWidth = Wr,
                 X0 = Xr,
                 Y0 = Yr,
-                X1 = PositionEnd.X,
-                Y1 = PositionEnd.Y,
+                X1 = e.X,
+                Y1 = e.Y,
                 isMove = false,
                 ZIndex = ZIndextoForm
             };
